@@ -2,10 +2,11 @@ Hello, this is app is going to be a tool that can visually save your chess openi
 
 
 v0.1 
+
 	 Updates:	
 		-Basic interface (CLI)
 		-The app can track moves and say the name of line that I give as input.(Only show 1 name if multiple possibilities)
-
+		
 	 Expected for v0.2:
 		-Next move proposition
 		-Enhancing the UI/UX Design
@@ -15,3 +16,4 @@ v0.1
 		-Interactive chessboard interface with drag an drop.
 		-Save personal lines (Local and/or Database)
 		-Huge datasets with a lot of existing openings
+	 
