@@ -47,7 +47,6 @@
 		F2F5638227A768B5007D8511 = {
 			isa = PBXGroup;
 			children = (
-				F2F563A327A76C75007D8511 /* Model */,
 				F2F5638D27A768B5007D8511 /* ChessBook */,
 				F2F5638C27A768B5007D8511 /* Products */,
 			);
@@ -64,6 +63,7 @@
 		F2F5638D27A768B5007D8511 /* ChessBook */ = {
 			isa = PBXGroup;
 			children = (
+				F2F563A327A76C75007D8511 /* Model */,
 				F2F5638E27A768B5007D8511 /* ChessBookApp.swift */,
 				F2F5639C27A7693D007D8511 /* View */,
 				F2F5639227A768B7007D8511 /* Assets.xcassets */,
