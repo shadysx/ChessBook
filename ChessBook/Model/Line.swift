@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
-
 
 class BookLine: Decodable {
     
@@ -19,14 +17,23 @@ class BookLine: Decodable {
 
 class InputLine {
     
-    var name: String = ""
+    var currentLine: BookLine?
     var movesArray: [String] = []
     var movesCount = 0
     
-    public func addMove(newMove: String) -> Void {
+    func addMove(newMove: String) -> Void {
         movesArray.append(newMove.lowercased())
         self.movesCount += 1
     }
+    
+    func showNextMove() -> String {
+        var retVal: String
+       
+        retVal = currentLine!.movesArray[movesCount]
+        
+        return retVal
+    }
+    
     
     func showLine() -> String {
         var retVal: String = ""
@@ -55,13 +62,33 @@ class InputLine {
     
 //    Note that if there are 2 corresponding lines only the last will be returned
     func compareWithEntireBook() -> String {
+        self.currentLine = nil
         var lineName = "Freestyle"
+        
         for line in book {
             if compareWithBook(bookLineObject: line) {
                 lineName = line.name
+                self.currentLine = line
             }
+        }
+        
+        if self.currentLine != nil {
+            print("The current line is \(self.currentLine!.name)")
         }
         return lineName
     }
     
+    func checkIfLineOutOfRange() -> Bool {
+        var retVal: Bool
+        if currentLine != nil {
+            if currentLine!.movesArray.count > movesCount {
+                retVal = false
+            } else {
+                retVal = true
+            }
+        } else {
+            retVal = true
+        }
+        return retVal
+    }
 }

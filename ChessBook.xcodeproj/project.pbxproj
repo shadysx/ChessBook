@@ -63,11 +63,12 @@
 		F2F5638D27A768B5007D8511 /* ChessBook */ = {
 			isa = PBXGroup;
 			children = (
-				F2F563A327A76C75007D8511 /* Model */,
 				F2F5638E27A768B5007D8511 /* ChessBookApp.swift */,
+				F2F563AF27A9F377007D8511 /* Data */,
+				F2F563A327A76C75007D8511 /* Model */,
 				F2F5639C27A7693D007D8511 /* View */,
-				F2F5639227A768B7007D8511 /* Assets.xcassets */,
 				F2F5639427A768B7007D8511 /* Preview Content */,
+				F2F5639227A768B7007D8511 /* Assets.xcassets */,
 			);
 			path = ChessBook;
 			sourceTree = "<group>";
@@ -96,7 +97,6 @@
 				F2F563A127A76C6D007D8511 /* ColorExtension.swift */,
 				F2F563A827A8B3AE007D8511 /* Line.swift */,
 				F2F563AA27A9F15F007D8511 /* DataModel.swift */,
-				F2F563AF27A9F377007D8511 /* Data */,
 			);
 			path = Model;
 			sourceTree = "<group>";

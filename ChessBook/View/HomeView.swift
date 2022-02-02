@@ -11,6 +11,7 @@ struct HomeView: View {
     @State private var inputMove: String = ""
     @State private var playedLine: String = "[Moves will be here]"
     @State private var playedLineName: String = "Line Name"
+    @State private var nextMove: String = "Next Move"
     
     var line = InputLine()
     
@@ -23,6 +24,10 @@ struct HomeView: View {
                 Text(playedLineName)
                     .font(.system(size: 45))
                 Text(playedLine)
+                Spacer()
+                Text(nextMove)
+                    .font(.system(size: 40))
+                    .foregroundColor(.blue)
                 Spacer()
                 TextField("Enter Move Here", text: $inputMove)
                     .font(Font.system(size: 30, design: .default))
@@ -38,7 +43,7 @@ struct HomeView: View {
                         .resizable()
                         .frame(width: 65, height: 65)
                         .aspectRatio(contentMode: .fit)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(.blue)
                 }
                 Spacer()
             }
@@ -48,6 +53,12 @@ struct HomeView: View {
     {
         self.playedLine = line.showLine()
         self.playedLineName = line.compareWithEntireBook()
+        
+        if !line.checkIfLineOutOfRange() {
+            self.nextMove = line.showNextMove()
+        } else {
+            self.nextMove = "Out Of Range"
+        }
     }
 }
 
