@@ -1,0 +1,10 @@
+[
+    {
+        "name" : "Casual Opening",
+        "movesArray" : ["e4", "e5", "kc3", "kc6"]
+    },
+    {
+        "name" : "Grob Opening",
+        "movesArray" : ["g4", "e5", "g2", "kf6"]
+    }
+]
