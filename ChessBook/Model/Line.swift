@@ -55,7 +55,7 @@ class InputLine {
     
 //    Note that if there are 2 corresponding lines only the last will be returned
     func compareWithEntireBook() -> String {
-        var lineName = "Not Found x"
+        var lineName = "Freestyle"
         for line in book {
             if compareWithBook(bookLineObject: line) {
                 lineName = line.name

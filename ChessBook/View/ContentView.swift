@@ -13,11 +13,11 @@ struct ContentView: View {
             
             HomeView()
                 .tabItem {
-                    Label("Menu", systemImage: "list.dash")
+                    Label("Play", systemImage: "play.fill")
                 }
             HelpView()
                 .tabItem {
-                    Label("Order", systemImage: "square.and.pencil")
+                    Label("Books", systemImage: "book.fill")
                 }
         }
         

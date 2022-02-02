@@ -9,21 +9,23 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var inputMove: String = ""
-    @State private var playedLine: String = ""
-    @State private var playedLineName: String = ""
+    @State private var playedLine: String = "[Moves will be here]"
+    @State private var playedLineName: String = "Line Name"
     
     var line = InputLine()
     
     var body: some View {
         ZStack {
-//            Color.moreDarkerColor
-//                .ignoresSafeArea()
+            Color.black
+                .ignoresSafeArea()
             VStack {
                 Spacer()
-                Text("Played line name: \(playedLineName)")
-                Text("Line played: \(playedLine)")
+                Text(playedLineName)
+                    .font(.system(size: 45))
+                Text(playedLine)
                 Spacer()
-                TextField("Next move here", text: $inputMove)
+                TextField("Enter Move Here", text: $inputMove)
+                    .font(Font.system(size: 30, design: .default))
                     .padding()
                     .multilineTextAlignment(.center)
                 Spacer()
@@ -32,14 +34,13 @@ struct HomeView: View {
                     self.inputMove = ""
                     self.updateUI()
                 }) {
-                    Text("See the next move")
+                    Image(systemName: "play.circle")
+                        .resizable()
+                        .frame(width: 65, height: 65)
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(Color.white)
                 }
                 Spacer()
-                Button(action: {
-                    print(line.compareWithEntireBook())
-                }) {
-                    Text("Compare With Book")
-                }
             }
         }
     }
