@@ -6,89 +6,83 @@
 //
 
 import Foundation
+import UIKit
 
-class BookLine: Decodable {
-    
+
+//This structure is matching the json data structure of the opening dataset, for more info check the DataModel.swift file
+struct BookLine: Decodable {
     var name: String
     var movesArray: [String]
 }
 
-
-
 class InputLine {
     
-    var currentLine: BookLine?
-    var movesArray: [String] = []
-    var movesCount = 0
-    
-    func addMove(newMove: String) -> Void {
-        movesArray.append(newMove.lowercased())
-        self.movesCount += 1
-    }
-    
-    func showNextMove() -> String {
-        var retVal: String
-       
-        retVal = currentLine!.movesArray[movesCount]
+    private var openingFeed: [String]
+    private var openingName: String
+    private var inputCount: Int
         
-        return retVal
+    init(){
+        self.openingFeed = []
+        self.openingName = ""
+        self.inputCount = 0
     }
     
+    //This is the unique function that get data from the view
+    func addMove(inputMove: String) -> Void {
+        self.openingFeed.append(inputMove.lowercased())
+        self.inputCount += 1
+    }
     
-    func showLine() -> String {
+    /*
+        This function cannot change the cycle order because they are dependant of each other
+        1. getOpeningFeed()   -> Return String to view
+        2. getOpeningName()   -> a) Set the openingName instance variable.
+                               -> b) Return String to view
+        3. getSuggestion      -> Return String to view
+     */
+    func getUIData(inputMove: String) -> [String] {
+        var dataForView: [String] = []
+        
+        dataForView.append(getOpeningfeed())
+        dataForView.append(getOpeningName())
+        dataForView.append(getSuggestion())
+        
+        return dataForView // [String openingFeed, String openingName, String suggestion]
+    }
+    
+    func getOpeningfeed() -> String {
         var retVal: String = ""
-        
-        for move in movesArray {
-            retVal = retVal + " " + move
+        for inputMove in self.openingFeed {
+            retVal += " " + inputMove
         }
         
         return retVal
     }
     
-    func compareWithBook(bookLineObject: BookLine) -> Bool {
-        let bookLine = bookLineObject.movesArray
-        let inputLine = self.movesArray
-        var isLineSame = true
+    func getOpeningName() -> String {
+        var retVal: String = "Not Found"
         
-        for i in 0...movesCount - 1 {
-            print("Bookline = \(bookLine[i])")
-            print("Inputline = \(inputLine[i])")
-            if bookLine[i] != inputLine[i] {
-                isLineSame = false
-            }
-        }
-        return isLineSame
-    }
-    
-//    Note that if there are 2 corresponding lines only the last will be returned
-    func compareWithEntireBook() -> String {
-        self.currentLine = nil
-        var lineName = "Freestyle"
-        
-        for line in book {
-            if compareWithBook(bookLineObject: line) {
-                lineName = line.name
-                self.currentLine = line
-            }
+        for i in 0 ..< book.count {
+            if self.openingFeed.prefix(inputCount) == book[i].movesArray.prefix(inputCount) {
+                    retVal = book[i].name
+                }
         }
         
-        if self.currentLine != nil {
-            print("The current line is \(self.currentLine!.name)")
-        }
-        return lineName
-    }
-    
-    func checkIfLineOutOfRange() -> Bool {
-        var retVal: Bool
-        if currentLine != nil {
-            if currentLine!.movesArray.count > movesCount {
-                retVal = false
-            } else {
-                retVal = true
-            }
-        } else {
-            retVal = true
-        }
+        self.openingName = retVal
         return retVal
     }
+    
+    func getSuggestion() -> String {
+        var retVal: String = ""
+        if openingName != "Not Found" && openingName != "" {
+            for line in book {
+                if line.name == openingName && line.movesArray.count > inputCount {
+                    retVal = line.movesArray[inputCount]
+                }
+            }
+        }
+
+        return retVal
+    }
+    
 }

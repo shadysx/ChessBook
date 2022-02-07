@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F256AB0C27B0B59200A1058E /* dataset_lite.txt in Resources */ = {isa = PBXBuildFile; fileRef = F256AB0B27B0B59200A1058E /* dataset_lite.txt */; };
 		F2F5638F27A768B5007D8511 /* ChessBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F5638E27A768B5007D8511 /* ChessBookApp.swift */; };
 		F2F5639127A768B5007D8511 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F5639027A768B5007D8511 /* ContentView.swift */; };
 		F2F5639327A768B7007D8511 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2F5639227A768B7007D8511 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F256AB0B27B0B59200A1058E /* dataset_lite.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = dataset_lite.txt; sourceTree = "<group>"; };
 		F2F5638B27A768B5007D8511 /* ChessBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChessBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F5638E27A768B5007D8511 /* ChessBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBookApp.swift; sourceTree = "<group>"; };
 		F2F5639027A768B5007D8511 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				F2F563AD27A9F324007D8511 /* chessData.json */,
+				F256AB0B27B0B59200A1058E /* dataset_lite.txt */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2F5639627A768B7007D8511 /* Preview Assets.xcassets in Resources */,
+				F256AB0C27B0B59200A1058E /* dataset_lite.txt in Resources */,
 				F2F563AE27A9F324007D8511 /* chessData.json in Resources */,
 				F2F5639327A768B7007D8511 /* Assets.xcassets in Resources */,
 			);

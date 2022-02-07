@@ -11,7 +11,7 @@ struct HomeView: View {
     @State private var inputMove: String = ""
     @State private var playedLine: String = "[Moves will be here]"
     @State private var playedLineName: String = "Line Name"
-    @State private var nextMove: String = "Next Move"
+    @State private var suggestion: String = "Next Move"
     
     var line = InputLine()
     
@@ -25,7 +25,7 @@ struct HomeView: View {
                     .font(.system(size: 45))
                 Text(playedLine)
                 Spacer()
-                Text(nextMove)
+                Text(suggestion)
                     .font(.system(size: 40))
                     .foregroundColor(.blue)
                 Spacer()
@@ -35,9 +35,8 @@ struct HomeView: View {
                     .multilineTextAlignment(.center)
                 Spacer()
                 Button(action: {
-                    line.addMove(newMove: inputMove)
-                    self.inputMove = ""
                     self.updateUI()
+                    self.inputMove = ""
                 }) {
                     Image(systemName: "play.circle")
                         .resizable()
@@ -49,16 +48,20 @@ struct HomeView: View {
             }
         }
     }
+    
     func updateUI()
     {
-        self.playedLine = line.showLine()
-        self.playedLineName = line.compareWithEntireBook()
+        var uiText: [String]
         
-        if !line.checkIfLineOutOfRange() {
-            self.nextMove = line.showNextMove()
-        } else {
-            self.nextMove = "Out Of Range"
-        }
+        //Adding a move
+        self.line.addMove(inputMove: inputMove)
+        //Request data
+        uiText = self.line.getUIData(inputMove: inputMove)
+        
+        //Affecting the data to UIObjects
+        self.playedLine = uiText[0]
+        self.playedLineName = uiText[1]
+        self.suggestion = uiText[2]
     }
 }
 
