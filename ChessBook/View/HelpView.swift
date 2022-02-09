@@ -12,7 +12,8 @@ struct HelpView: View {
         ZStack {
             Color.darkerColor
                 .ignoresSafeArea()
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            BoardView()
+                
         }
     }
 }

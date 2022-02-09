@@ -13,8 +13,20 @@ Hello, this is app is going to be a tool that can visually save your chess openi
 
 	v0.2 
 		-Refactoring all the code according to a more evolution friendly way
+
+	v0.2.1
+		-Implementing the first draw of the chessboard
+
+	v0.2.2
+		-Added the function that can recognize wich cell the piece is draged on. 
+
+	Expected for 0.3:
+		-Adding all the pieces
+		-Refactoring the chessboardLogic code 
+		-Refactoring the piecesLogic code
+		-Chessboard integration in the current app.
 		
-	Expected for v0.3:
+	Expected for v0.5:
 		-Multiple suggestions returned to the view, with percentage from a dataset (ChessDB)
 		-Playing black or white 
 

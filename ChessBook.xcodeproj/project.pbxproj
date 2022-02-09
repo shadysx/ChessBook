@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F256AB0C27B0B59200A1058E /* dataset_lite.txt in Resources */ = {isa = PBXBuildFile; fileRef = F256AB0B27B0B59200A1058E /* dataset_lite.txt */; };
+		F276372F27B33700004FF2FA /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276372E27B33700004FF2FA /* BoardView.swift */; };
 		F2F5638F27A768B5007D8511 /* ChessBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F5638E27A768B5007D8511 /* ChessBookApp.swift */; };
 		F2F5639127A768B5007D8511 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F5639027A768B5007D8511 /* ContentView.swift */; };
 		F2F5639327A768B7007D8511 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2F5639227A768B7007D8511 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		F256AB0B27B0B59200A1058E /* dataset_lite.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = dataset_lite.txt; sourceTree = "<group>"; };
+		F276372E27B33700004FF2FA /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		F2F5638B27A768B5007D8511 /* ChessBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChessBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F5638E27A768B5007D8511 /* ChessBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBookApp.swift; sourceTree = "<group>"; };
 		F2F5639027A768B5007D8511 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			children = (
 				F2F5639027A768B5007D8511 /* ContentView.swift */,
 				F2F5639D27A76956007D8511 /* HomeView.swift */,
+				F276372E27B33700004FF2FA /* BoardView.swift */,
 				F2F5639F27A76960007D8511 /* HelpView.swift */,
 			);
 			path = View;
@@ -189,6 +192,7 @@
 				F2F5639127A768B5007D8511 /* ContentView.swift in Sources */,
 				F2F5638F27A768B5007D8511 /* ChessBookApp.swift in Sources */,
 				F2F563A927A8B3AE007D8511 /* Line.swift in Sources */,
+				F276372F27B33700004FF2FA /* BoardView.swift in Sources */,
 				F2F563AB27A9F15F007D8511 /* DataModel.swift in Sources */,
 				F2F563A227A76C6D007D8511 /* ColorExtension.swift in Sources */,
 			);

@@ -17,23 +17,25 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-            Color.black
-                .ignoresSafeArea()
+//            Color.black
+//                .ignoresSafeArea()
             VStack {
-                Spacer()
+                
                 Text(playedLineName)
                     .font(.system(size: 45))
                 Text(playedLine)
-                Spacer()
+                
                 Text(suggestion)
                     .font(.system(size: 40))
                     .foregroundColor(.blue)
-                Spacer()
+                
+                BoardView()
+                    .border(Color.red)
                 TextField("Enter Move Here", text: $inputMove)
                     .font(Font.system(size: 30, design: .default))
                     .padding()
                     .multilineTextAlignment(.center)
-                Spacer()
+                
                 Button(action: {
                     self.updateUI()
                     self.inputMove = ""
@@ -44,7 +46,6 @@ struct HomeView: View {
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(.blue)
                 }
-                Spacer()
             }
         }
     }
