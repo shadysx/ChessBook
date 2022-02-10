@@ -20,7 +20,8 @@ struct HomeView: View {
 //            Color.black
 //                .ignoresSafeArea()
             VStack {
-                
+                HomeChessBoardView()
+                Spacer()
                 Text(playedLineName)
                     .font(.system(size: 45))
                 Text(playedLine)
@@ -28,9 +29,6 @@ struct HomeView: View {
                 Text(suggestion)
                     .font(.system(size: 40))
                     .foregroundColor(.blue)
-                
-                BoardView()
-                    .border(Color.red)
                 TextField("Enter Move Here", text: $inputMove)
                     .font(Font.system(size: 30, design: .default))
                     .padding()

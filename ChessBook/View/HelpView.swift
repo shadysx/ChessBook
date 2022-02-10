@@ -12,8 +12,6 @@ struct HelpView: View {
         ZStack {
             Color.darkerColor
                 .ignoresSafeArea()
-            BoardView()
-                
         }
     }
 }
