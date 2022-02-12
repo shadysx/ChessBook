@@ -1,727 +1,695 @@
 //
-//  BoardView.swift
+//  SandBoxView.swift
 //  ChessBook
 //
-//  Created by Laurent Klein on 09/02/2022.
+//  Created by Laurent Klein on 12/02/2022.
 //
 
 import SwiftUI
 
 struct HomeChessBoardView: View {
-  
+    
+    @State var cellWidth: Double = 0
     @State var lastMove = ".."
-    @State var cellWidth: CGFloat = 0
-    @State var boardHeight: CGFloat = 0
-    @State var chessBoardYStart: CGFloat = 0
     
-    
-    @State var piecesArray: [CGPoint] = []
-    //White Pieces
-    @State var whitePawnAPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whitePawnBPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whitePawnCPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whitePawnDPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whitePawnEPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whitePawnFPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whitePawnGPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whitePawnHPosition: CGPoint = CGPoint(x: 0, y:0)
-
-    @State var whiteRookAPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whiteKnightBPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whiteBishopCPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whiteQueenPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whiteKingPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whiteBishopFPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whiteKnightGPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var whiteRookHPosition: CGPoint = CGPoint(x: 0, y:0)
-    
-    
-    //Black Pieces
-    @State var blackPawnAPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackPawnBPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackPawnCPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackPawnDPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackPawnEPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackPawnFPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackPawnGPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackPawnHPosition: CGPoint = CGPoint(x: 0, y:0)
-    
-    @State var blackRookAPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackKnightBPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackBishopCPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackQueenPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackKingPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackBishopFPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackKnightGPosition: CGPoint = CGPoint(x: 0, y:0)
-    @State var blackRookHPosition: CGPoint = CGPoint(x: 0, y:0)
-    
-    
-    
-    //Not using at the moment
-    func getChessBoardYStartPoint() -> CGFloat {
-        let f = UIScreen.main.bounds.height
-        let c = boardHeight
-        let x = (f - c) / 2
+    @State var pieces: [String: CGPoint] = [
+        "whitePawn1": .zero,
+        "whitePawn2": .zero,
+        "whitePawn3": .zero,
+        "whitePawn4": .zero,
+        "whitePawn5": .zero,
+        "whitePawn6": .zero,
+        "whitePawn7": .zero,
+        "whitePawn8": .zero,
         
-        return x
+        "whiteRook1": .zero,
+        "whiteKnight1": .zero,
+        "whiteBishop1": .zero,
+        "whiteQueen": .zero,
+        "whiteKing": .zero,
+        "whiteBishop2": .zero,
+        "whiteKnight2": .zero,
+        "whiteRook2": .zero,
+        
+        "blackPawn1": .zero,
+        "blackPawn2": .zero,
+        "blackPawn3": .zero,
+        "blackPawn4": .zero,
+        "blackPawn5": .zero,
+        "blackPawn6": .zero,
+        "blackPawn7": .zero,
+        "blackPawn8": .zero,
+        
+        "blackRook1": .zero,
+        "blackKnight1": .zero,
+        "blackBishop1": .zero,
+        "blackQueen": .zero,
+        "blackKing": .zero,
+        "blackBishop2": .zero,
+        "blackKnight2": .zero,
+        "blackRook2": .zero,
+    ]
+    
+    func centerPiece(piecePosition: CGPoint) -> CGPoint{
+        let cellY = 8 - Double(Int(piecePosition.y / cellWidth))
+        let cellX = 1 + Double(Int(piecePosition.x / cellWidth))
+        
+        return CGPoint( //This value is meant to replace the piece in the center of the cell
+            x: cellX * cellWidth - cellWidth / 2, y: (8 - cellY) * cellWidth + cellWidth / 2)
+        
+        
     }
     
-    func updatePieceArray() {
-        piecesArray = [
-            whitePawnAPosition, whitePawnBPosition, whitePawnCPosition, whitePawnDPosition, whitePawnEPosition, whitePawnFPosition, whitePawnGPosition, whitePawnHPosition,
-            whiteRookAPosition, whiteKnightBPosition, whiteBishopCPosition, whiteQueenPosition, whiteKingPosition, whiteBishopFPosition, whiteKnightGPosition, whiteRookHPosition,
-            blackPawnAPosition, blackPawnBPosition, blackPawnCPosition, blackPawnDPosition, blackPawnEPosition, blackPawnFPosition, blackPawnGPosition, blackPawnHPosition,
-            blackRookAPosition, blackKnightBPosition, blackBishopCPosition, blackQueenPosition, blackKingPosition, blackBishopFPosition, blackKnightGPosition, blackRookHPosition
-        ]
+    func movePiece(pieceDestination: CGPoint) -> CGPoint {
+        
+        let pieceDestinationCentered = centerPiece(piecePosition: pieceDestination)
+        print("------------")
+        //Code to fix, this should delete the piece if taked
+        for (name, position) in pieces {
+            if pieceDestinationCentered == position {
+                pieces[name] = CGPoint(x: 667, y: 667)
+            }
+        }
+        
+        return pieceDestinationCentered
     }
     
-    
-    func movePiece(piecePosition: CGPoint) -> CGPoint {
+    func identifyCell(piecePosition: CGPoint) -> String {
         let cellY = 8 - (Int(piecePosition.y / cellWidth))
         let cellX = 1 + (Int(piecePosition.x / cellWidth))
-        
-        let cellWidthDouble: Double = Double(cellWidth)
+        var retVal: String = "Not found"
         
         switch cellX {
         case 1:
-            lastMove = "A\(cellY)"
+            retVal = "A\(cellY)"
         case 2:
-            lastMove = "B\(cellY)"
+            retVal = "B\(cellY)"
         case 3:
-            lastMove = "C\(cellY)"
+            retVal = "C\(cellY)"
         case 4:
-            lastMove = "D\(cellY)"
+            retVal = "D\(cellY)"
         case 5:
-            lastMove = "E\(cellY)"
+            retVal = "E\(cellY)"
         case 6:
-            lastMove = "F\(cellY)"
+            retVal = "F\(cellY)"
         case 7:
-            lastMove = "G\(cellY)"
+            retVal = "G\(cellY)"
         case 8:
-            lastMove = "H\(cellY)"
+            retVal = "H\(cellY)"
             default:
                 print("Not in the board")
         }
         
-        return CGPoint(x: Double(cellX) * cellWidthDouble - cellWidthDouble / 2, y: (8 - Double(cellY)) * cellWidthDouble + cellWidthDouble / 2) //This value is meant to replace the piece in the center of the cell
-        
-
+        return retVal
     }
     
-    
-    func piecesTakes(movingPiece: CGPoint) -> Void {
-        
-        for (i,piece) in piecesArray.enumerated() {
-            print(i)
-            if movingPiece == piece {
-                print("This piece is taked \(i)")
-                print(piecesArray[i])
-//                piecesArray[i] = CGPoint(x: 667, y: 667)
-                print(piecesArray[i])
-                lastMove = ("\(piece)")
+    struct ChessBoard: Shape {
+        let rows: Int
+        let columns: Int
 
-//                print("After \(piecesArray[i])")
+        func path(in rect: CGRect) -> Path {
+            var path = Path()
+
+            // figure out how big each row/column needs to be
+            let rowSize = rect.height / CGFloat(rows)
+            let columnSize = rect.width / CGFloat(columns)
+
+            // loop over all rows and columns, making alternating squares colored
+            for row in 0 ..< rows {
+                for column in 0 ..< columns {
+                    if (row + column).isMultiple(of: 2) {
+                        // this square should be colored; add a rectangle here
+                        let startX = columnSize * CGFloat(column)
+                        let startY = rowSize * CGFloat(row)
+
+                        let rect = CGRect(x: startX, y: startY, width: columnSize, height: rowSize)
+                        path.addRect(rect)
+                    }
+                }
             }
- 
-        }
-        
-        print("Updating pieceArray")
 
-        
+            return path
+        }
     }
-    
-    
-    
+
     
     var body: some View {
-        
-        ZStack (alignment: .top){
-            
-                GeometryReader{ geometry in
-                    ChessBoard(rows: 8, columns: 8)
-                        .fill(Color.blue)
-                        .frame(
-                            minWidth: 0, maxWidth: .infinity, minHeight: 0
-                        )
-                        .aspectRatio(contentMode: .fit)
-                        
-                        .onAppear {
+        ZStack(alignment: .top){
+            ChessBoard(rows: 8, columns: 8)
+                .fill(Color.white)
+                .frame(
+                    minWidth: 0, maxWidth: .infinity, minHeight: 0
+                )
+                .aspectRatio(contentMode: .fit)
+                .background(.blue)
+                .cornerRadius(8)
+  
 
-                            cellWidth = UIScreen.main.bounds.width / 8
-                            print("CellWidth: \(cellWidth)")
-                            
-                            
-                            //White
-                            whitePawnAPosition = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
-                            whitePawnBPosition = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
-                            whitePawnCPosition = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
-                            whitePawnDPosition = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
-                            whitePawnEPosition = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
-                            whitePawnFPosition = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
-                            whitePawnGPosition = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
-                            whitePawnHPosition = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
-                            
-                            whiteRookAPosition = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
-                            whiteKnightBPosition = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
-                            whiteBishopCPosition = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
-                            whiteQueenPosition = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
-                            whiteKingPosition = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
-                            whiteBishopFPosition = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
-                            whiteKnightGPosition = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
-                            whiteRookHPosition = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
-                            
-                            //Black
-                            blackPawnAPosition = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
-                            blackPawnBPosition = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
-                            blackPawnCPosition = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
-                            blackPawnDPosition = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
-                            blackPawnEPosition = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
-                            blackPawnFPosition = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
-                            blackPawnGPosition = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
-                            blackPawnHPosition = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
-                            
-                            blackRookAPosition = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
-                            blackKnightBPosition = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
-                            blackBishopCPosition = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
-                            blackQueenPosition = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
-                            blackKingPosition = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
-                            blackBishopFPosition = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
-                            blackKnightGPosition = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
-                            blackRookHPosition = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
-                            
-                            piecesArray = [
-                                whitePawnAPosition, whitePawnBPosition, whitePawnCPosition, whitePawnDPosition, whitePawnEPosition, whitePawnFPosition, whitePawnGPosition, whitePawnHPosition,
-                                whiteRookAPosition, whiteKnightBPosition, whiteBishopCPosition, whiteQueenPosition, whiteKingPosition, whiteBishopFPosition, whiteKnightGPosition, whiteRookHPosition,
-                                blackPawnAPosition, blackPawnBPosition, blackPawnCPosition, blackPawnDPosition, blackPawnEPosition, blackPawnFPosition, blackPawnGPosition, blackPawnHPosition,
-                                blackRookAPosition, blackKnightBPosition, blackBishopCPosition, blackQueenPosition, blackKingPosition, blackBishopFPosition, blackKnightGPosition, blackRookHPosition
-                            ]
-                        
-                            
-                            boardHeight = geometry.size.width
-                            
-                            
-                            
-                        }
-
-                }
-
-                .border(.blue)
+                
+                .onAppear {
+                    cellWidth = UIScreen.main.bounds.width / 8
                     
-                VStack {
-                    Text("cellWidth: \(cellWidth)")
-                    Text("boardHeight: \(boardHeight)")
-                    Text("Last move: \(lastMove)")
+                    pieces["whitePawn1"] = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+                    pieces["whitePawn2"] = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+                    pieces["whitePawn3"] = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+                    pieces["whitePawn4"] = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+                    pieces["whitePawn5"] = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+                    pieces["whitePawn6"] = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+                    pieces["whitePawn7"] = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+                    pieces["whitePawn8"] = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+                    
+                    pieces["whiteRook1"] = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+                    pieces["whiteKnight1"] = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+                    pieces["whiteBishop1"] = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+                    pieces["whiteQueen"] = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+                    pieces["whiteKing"] = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+                    pieces["whiteBishop2"] = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+                    pieces["whiteKnight2"] = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+                    pieces["whiteRook2"] = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
 
+                    pieces["blackPawn1"] = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+                    pieces["blackPawn2"] = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+                    pieces["blackPawn3"] = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+                    pieces["blackPawn4"] = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+                    pieces["blackPawn5"] = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+                    pieces["blackPawn6"] = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+                    pieces["blackPawn7"] = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+                    pieces["blackPawn8"] = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+                    
+                    pieces["blackRook1"] = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+                    pieces["blackKnight1"] = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+                    pieces["blackBishop1"] = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+                    pieces["blackKing"] = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+                    pieces["blackQueen"] = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+                    pieces["blackBishop2"] = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+                    pieces["blackKnight2"] = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+                    pieces["blackRook2"] = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
                 }
-            
 
+            Group {
                 Group {
                     Image("whitePawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whitePawnAPosition)
+                        .position(pieces["whitePawn1"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whitePawnAPosition = value.location
+                                    pieces["whitePawn1"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnAPosition =  movePiece(piecePosition: whitePawnAPosition)
-                                    piecesTakes(movingPiece: whitePawnAPosition)
-                                    updatePieceArray()
-                                    
+                                    pieces["whitePawn1"] = movePiece(pieceDestination: pieces["whitePawn1"]!)
+
+
+
+                                }
+                        )
+
+                    Image("whitePawn")
+                        .resizable()
+                        .frame(width: cellWidth, height: cellWidth)
+                        .position(pieces["whitePawn2"]!)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    pieces["whitePawn2"]! = value.location
+                                }
+                                .onEnded {_ in
+                                    pieces["whitePawn2"] = movePiece(pieceDestination: pieces["whitePawn2"]!)
                                 }
                         )
                     
                     Image("whitePawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whitePawnBPosition)
+                        .position(pieces["whitePawn3"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whitePawnBPosition = value.location
+                                    pieces["whitePawn3"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnBPosition = movePiece(piecePosition: whitePawnBPosition)
-                                    updatePieceArray()
+                                    pieces["whitePawn3"] = movePiece(pieceDestination: pieces["whitePawn3"]!)
+
+
+
+                                }
+                        )
+
+                    Image("whitePawn")
+                        .resizable()
+                        .frame(width: cellWidth, height: cellWidth)
+                        .position(pieces["whitePawn4"]!)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    pieces["whitePawn4"]! = value.location
+                                }
+                                .onEnded {_ in
+                                    pieces["whitePawn4"] = movePiece(pieceDestination: pieces["whitePawn4"]!)
                                 }
                         )
                     
                     Image("whitePawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whitePawnCPosition)
+                        .position(pieces["whitePawn5"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whitePawnCPosition = value.location
+                                    pieces["whitePawn5"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnCPosition = movePiece(piecePosition: whitePawnCPosition)
+                                    pieces["whitePawn5"] = movePiece(pieceDestination: pieces["whitePawn5"]!)
+
+
+
+                                }
+                        )
+
+                    Image("whitePawn")
+                        .resizable()
+                        .frame(width: cellWidth, height: cellWidth)
+                        .position(pieces["whitePawn6"]!)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    pieces["whitePawn6"]! = value.location
+                                }
+                                .onEnded {_ in
+                                    pieces["whitePawn6"] = movePiece(pieceDestination: pieces["whitePawn6"]!)
                                 }
                         )
                     
                     Image("whitePawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whitePawnDPosition)
+                        .position(pieces["whitePawn7"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whitePawnDPosition = value.location
+                                    pieces["whitePawn7"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnDPosition = movePiece(piecePosition: whitePawnDPosition)
+                                    pieces["whitePawn7"] = movePiece(pieceDestination: pieces["whitePawn7"]!)
+
+
+
                                 }
                         )
-                    
+
                     Image("whitePawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whitePawnEPosition)
+                        .position(pieces["whitePawn8"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whitePawnEPosition = value.location
+                                    pieces["whitePawn8"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnEPosition = movePiece(piecePosition: whitePawnEPosition)
-                                }
-                        )
-                    
-                    Image("whitePawn")
-                        .resizable()
-                        .frame(width: cellWidth, height: cellWidth)
-                        .position(whitePawnFPosition)
-                        .gesture(
-                            DragGesture()
-                                .onChanged { value in
-                                    whitePawnFPosition = value.location
-                                }
-                                .onEnded {_ in
-                                    whitePawnFPosition = movePiece(piecePosition: whitePawnFPosition)
-                                }
-                        )
-                    
-                    Image("whitePawn")
-                        .resizable()
-                        .frame(width: cellWidth, height: cellWidth)
-                        .position(whitePawnGPosition)
-                        .gesture(
-                            DragGesture()
-                                .onChanged { value in
-                                    whitePawnGPosition = value.location
-                                }
-                                .onEnded {_ in
-                                    whitePawnGPosition = movePiece(piecePosition: whitePawnGPosition)
-                                }
-                        )
-                    
-                    Image("whitePawn")
-                        .resizable()
-                        .frame(width: cellWidth, height: cellWidth)
-                        .position(whitePawnHPosition)
-                        .gesture(
-                            DragGesture()
-                                .onChanged { value in
-                                    whitePawnHPosition = value.location
-                                }
-                                .onEnded {_ in
-                                    whitePawnHPosition = movePiece(piecePosition: whitePawnHPosition)
+                                    pieces["whitePawn8"] = movePiece(pieceDestination: pieces["whitePawn8"]!)
                                 }
                         )
                 }
-            
+                
+                
                 Group {
-                    
                     Image("whiteRook")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whiteRookAPosition)
+                        .position(pieces["whiteRook1"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whiteRookAPosition = value.location
+                                    pieces["whiteRook1"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteRookAPosition = movePiece(piecePosition: whiteRookAPosition)
+                                    pieces["whiteRook1"] = movePiece(pieceDestination: pieces["whiteRook1"]!)
+
+
+
                                 }
                         )
 
-                    
                     Image("whiteKnight")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whiteKnightGPosition)
+                        .position(pieces["whiteKnight1"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whiteKnightGPosition = value.location
+                                    pieces["whiteKnight1"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteKnightGPosition = movePiece(piecePosition: whiteKnightGPosition)
+                                    pieces["whiteKnight1"] = movePiece(pieceDestination: pieces["whiteKnight1"]!)
                                 }
                         )
                     
                     Image("whiteBishop")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whiteBishopCPosition)
+                        .position(pieces["whiteBishop1"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whiteBishopCPosition = value.location
+                                    pieces["whiteBishop1"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteBishopCPosition = movePiece(piecePosition: whiteBishopCPosition)
+                                    pieces["whiteBishop1"] = movePiece(pieceDestination: pieces["whiteBishop1"]!)
+
+
+
                                 }
                         )
 
-                    
                     Image("whiteQueen")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whiteQueenPosition)
+                        .position(pieces["whiteQueen"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whiteQueenPosition = value.location
+                                    pieces["whiteQueen"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteQueenPosition = movePiece(piecePosition: whiteQueenPosition)
+                                    pieces["whiteQueen"] = movePiece(pieceDestination: pieces["whiteQueen"]!)
                                 }
                         )
                     
                     Image("whiteKing")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whiteKingPosition)
+                        .position(pieces["whiteKing"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whiteKingPosition = value.location
+                                    pieces["whiteKing"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteKingPosition = movePiece(piecePosition: whiteKingPosition)
+                                    pieces["whiteKing"] = movePiece(pieceDestination: pieces["whiteKing"]!)
+
+
+
                                 }
                         )
-                    
+
                     Image("whiteBishop")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whiteBishopFPosition)
+                        .position(pieces["whiteBishop2"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whiteBishopFPosition = value.location
+                                    pieces["whiteBishop2"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteBishopFPosition = movePiece(piecePosition: whiteBishopFPosition)
+                                    pieces["whiteBishop2"] = movePiece(pieceDestination: pieces["whiteBishop2"]!)
                                 }
                         )
                     
                     Image("whiteKnight")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whiteKnightBPosition)
+                        .position(pieces["whiteKnight2"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whiteKnightBPosition = value.location
+                                    pieces["whiteKnight2"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteKnightBPosition = movePiece(piecePosition: whiteKnightBPosition)
+                                    pieces["whiteKnight2"] = movePiece(pieceDestination: pieces["whiteKnight2"]!)
+
+
+
                                 }
                         )
-                    
+
                     Image("whiteRook")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(whiteRookHPosition)
+                        .position(pieces["whiteRook2"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    whiteRookHPosition = value.location
+                                    pieces["whiteRook2"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteRookHPosition = movePiece(piecePosition: whiteRookHPosition)
+                                    pieces["whiteRook2"] = movePiece(pieceDestination: pieces["whiteRook2"]!)
                                 }
                         )
-
                 }
-            
-            // MARK: Black section
+                
+               
+                
+                
                 Group {
                     Image("blackPawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackPawnAPosition)
+                        .position(pieces["blackPawn1"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackPawnAPosition = value.location
+                                    pieces["blackPawn1"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnAPosition = movePiece(piecePosition: blackPawnAPosition)
+                                    pieces["blackPawn1"]! = movePiece(pieceDestination: pieces["blackPawn1"]!)
                                 }
                         )
                     
                     Image("blackPawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackPawnBPosition)
+                        .position(pieces["blackPawn2"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackPawnBPosition = value.location
+                                    pieces["blackPawn2"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnBPosition = movePiece(piecePosition: blackPawnBPosition)
+                                    pieces["blackPawn2"]! = movePiece(pieceDestination: pieces["blackPawn2"]!)
                                 }
                         )
                     
                     Image("blackPawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackPawnCPosition)
+                        .position(pieces["blackPawn3"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackPawnCPosition = value.location
+                                    pieces["blackPawn3"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnCPosition = movePiece(piecePosition: blackPawnCPosition)
+                                    pieces["blackPawn3"]! = movePiece(pieceDestination: pieces["blackPawn3"]!)
                                 }
                         )
                     
                     Image("blackPawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackPawnDPosition)
+                        .position(pieces["blackPawn4"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackPawnDPosition = value.location
+                                    pieces["blackPawn4"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnDPosition = movePiece(piecePosition: blackPawnDPosition)
+                                    pieces["blackPawn4"]! = movePiece(pieceDestination: pieces["blackPawn4"]!)
                                 }
                         )
                     
                     Image("blackPawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackPawnEPosition)
+                        .position(pieces["blackPawn5"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackPawnEPosition = value.location
+                                    pieces["blackPawn5"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnEPosition = movePiece(piecePosition: blackPawnEPosition)
+                                    pieces["blackPawn5"]! = movePiece(pieceDestination: pieces["blackPawn5"]!)
                                 }
                         )
                     
                     Image("blackPawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackPawnFPosition)
+                        .position(pieces["blackPawn6"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackPawnFPosition = value.location
+                                    pieces["blackPawn6"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnFPosition = movePiece(piecePosition: blackPawnFPosition)
+                                    pieces["blackPawn6"]! = movePiece(pieceDestination: pieces["blackPawn6"]!)
                                 }
                         )
                     
                     Image("blackPawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackPawnGPosition)
+                        .position(pieces["blackPawn7"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackPawnGPosition = value.location
+                                    pieces["blackPawn7"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnGPosition = movePiece(piecePosition: blackPawnGPosition)
+                                    pieces["blackPawn7"]! = movePiece(pieceDestination: pieces["blackPawn7"]!)
                                 }
                         )
                     
                     Image("blackPawn")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackPawnHPosition)
+                        .position(pieces["blackPawn8"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackPawnHPosition = value.location
+                                    pieces["blackPawn8"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnHPosition = movePiece(piecePosition: blackPawnHPosition)
+                                    pieces["blackPawn8"]! = movePiece(pieceDestination: pieces["blackPawn8"]!)
                                 }
                         )
                 }
-            
+                
                 Group {
-                    
                     Image("blackRook")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackRookAPosition)
+                        .position(pieces["blackRook1"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackRookAPosition = value.location
+                                    pieces["blackRook1"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackRookAPosition = movePiece(piecePosition: blackRookAPosition)
+                                    pieces["blackRook1"] = movePiece(pieceDestination: pieces["blackRook1"]!)
+
+
+
                                 }
                         )
 
-                    
                     Image("blackKnight")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackKnightGPosition)
+                        .position(pieces["blackKnight1"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackKnightGPosition = value.location
+                                    pieces["blackKnight1"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackKnightGPosition = movePiece(piecePosition: blackKnightGPosition)
+                                    pieces["blackKnight1"] = movePiece(pieceDestination: pieces["blackKnight1"]!)
                                 }
                         )
                     
                     Image("blackBishop")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackBishopCPosition)
+                        .position(pieces["blackBishop1"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackBishopCPosition = value.location
+                                    pieces["blackBishop1"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackBishopCPosition = movePiece(piecePosition: blackBishopCPosition)
+                                    pieces["blackBishop1"] = movePiece(pieceDestination: pieces["blackBishop1"]!)
+
+
+
                                 }
                         )
 
-                    
                     Image("blackQueen")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackQueenPosition)
+                        .position(pieces["blackQueen"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackQueenPosition = value.location
+                                    pieces["blackQueen"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackQueenPosition = movePiece(piecePosition: blackQueenPosition)
+                                    pieces["blackQueen"] = movePiece(pieceDestination: pieces["blackQueen"]!)
                                 }
                         )
                     
                     Image("blackKing")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackKingPosition)
+                        .position(pieces["blackKing"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackKingPosition = value.location
+                                    pieces["blackKing"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackKingPosition = movePiece(piecePosition: blackKingPosition)
+                                    pieces["blackKing"] = movePiece(pieceDestination: pieces["blackKing"]!)
+
+
+
                                 }
                         )
-                    
+
                     Image("blackBishop")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackBishopFPosition)
+                        .position(pieces["blackBishop2"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackBishopFPosition = value.location
+                                    pieces["blackBishop2"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackBishopFPosition = movePiece(piecePosition: blackBishopFPosition)
+                                    pieces["blackBishop2"] = movePiece(pieceDestination: pieces["blackBishop2"]!)
                                 }
                         )
                     
                     Image("blackKnight")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackKnightBPosition)
+                        .position(pieces["blackKnight2"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackKnightBPosition = value.location
+                                    pieces["blackKnight2"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackKnightBPosition = movePiece(piecePosition: blackKnightBPosition)
+                                    pieces["blackKnight2"] = movePiece(pieceDestination: pieces["blackKnight2"]!)
+
+
+
                                 }
                         )
-                    
+
                     Image("blackRook")
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth)
-                        .position(blackRookHPosition)
+                        .position(pieces["blackRook2"]!)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    blackRookHPosition = value.location
+                                    pieces["blackRook2"]! = value.location
                                 }
                                 .onEnded {_ in
-                                    blackRookHPosition = movePiece(piecePosition: blackRookHPosition)
+                                    pieces["blackRook2"] = movePiece(pieceDestination: pieces["blackRook2"]!)
                                 }
                         )
                 }
-            }
+            }//Group parent
+            .frame(width: cellWidth*8, height: cellWidth*8)
+          
+            
+        }//.border(.red) //ZSTACK CLOSING HERE
+        
+       
     }
     
-
     
-}
-
-
-struct ChessBoard: Shape {
-    let rows: Int
-    let columns: Int
-
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-
-        // figure out how big each row/column needs to be
-        let rowSize = rect.height / CGFloat(rows)
-        let columnSize = rect.width / CGFloat(columns)
-
-        // loop over all rows and columns, making alternating squares colored
-        for row in 0 ..< rows {
-            for column in 0 ..< columns {
-                if (row + column).isMultiple(of: 2) {
-                    // this square should be colored; add a rectangle here
-                    let startX = columnSize * CGFloat(column)
-                    let startY = rowSize * CGFloat(row)
-
-                    let rect = CGRect(x: startX, y: startY, width: columnSize, height: rowSize)
-                    path.addRect(rect)
-                }
-            }
-        }
-
-        return path
-    }
-}
-
-
-struct BoardView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeChessBoardView()
-    }
 }

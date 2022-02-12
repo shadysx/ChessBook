@@ -12,7 +12,7 @@ Hello, this is app is going to be a tool that can visually save your chess openi
 		-Added Next Move feature (only 1 suggestion, this may be enhanced in the future)
 
 	v0.2 
-		-Refactoring all the code according to a more evolution friendly way
+		-Refactoring all the code according in a more evolution friendly way
 
 	v0.2.1
 		-Implementing the first draw of the chessboard
@@ -23,19 +23,20 @@ Hello, this is app is going to be a tool that can visually save your chess openi
 	v0.2.3
 		-Added pieces takes function
 
-	Expected for 0.3:
-		-Adding all the pieces
-		-Refactoring the chessboardLogic code 
-		-Refactoring the piecesLogic code
-		-Chessboard integration in the current app.
+	v0.3
+		-The UI is "full functionnal", the line recognition also. Next patch will probably make them work together
+
 		
 	Expected for v0.5:
 		-Multiple suggestions returned to the view, with percentage from a dataset (ChessDB)
 		-Playing black or white 
+		-Castle Function
 
 	Expected for 1.0:
+		-Clean UI
 		-Interactive chessboard interface with drag an drop.
 		-Save personal lines (Local and/or Database)
 		-Huge datasets with a lot of existing openings
 		-Multiple suggestions
+		-Legal moves(not sure if it's worth the time :D)
 	 

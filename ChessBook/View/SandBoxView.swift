@@ -1,9 +1,4 @@
-//
-//  SandBoxView.swift
-//  ChessBook
-//
-//  Created by Laurent Klein on 12/02/2022.
-//
+
 
 import SwiftUI
 
@@ -62,12 +57,12 @@ struct SandBoxView: View {
     
     func movePiece(pieceDestination: CGPoint) -> CGPoint {
         
-        var pieceDestinationCentered = centerPiece(piecePosition: pieceDestination)
+        let pieceDestinationCentered = centerPiece(piecePosition: pieceDestination)
         print("------------")
         //Code to fix, this should delete the piece if taked
         for (name, position) in pieces {
             if pieceDestinationCentered == position {
-                pieces[name] = CGPoint(x: 0, y: 0)
+                pieces[name] = CGPoint(x: 667, y: 667)
             }
         }
         
@@ -135,7 +130,7 @@ struct SandBoxView: View {
     
     var body: some View {
         ZStack(alignment: .top){
-            Color.clear //(Color.clear expands to fill all available space, so this forces your ZStack to be as large as the enclosing view without needing to add a .frame().)
+             //(Color.clear expands to fill all available space, so this forces your ZStack to be as large as the enclosing view without needing to add a .frame().)
             ChessBoard(rows: 8, columns: 8)
                 .fill(Color.blue)
                 .frame(
@@ -149,42 +144,44 @@ struct SandBoxView: View {
                     pieces["whitePawn2"] = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
                 }
 
-            Image("whitePawn")
-                .resizable()
-                .frame(width: cellWidth, height: cellWidth)
-                .position(pieces["whitePawn1"]!)
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            pieces["whitePawn1"]! = value.location
-                        }
-                        .onEnded {_ in
-                            pieces["whitePawn1"] = movePiece(pieceDestination: pieces["whitePawn1"]!)
+            
+            Group {
+                Image("whitePawn")
+                    .resizable()
+                    .frame(width: cellWidth, height: cellWidth)
+                    .position(pieces["whitePawn1"]!)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                pieces["whitePawn1"]! = value.location
+                            }
+                            .onEnded {_ in
+                                pieces["whitePawn1"] = movePiece(pieceDestination: pieces["whitePawn1"]!)
 
 
 
-                        }
-                )
+                            }
+                    )
 
-            Image("whitePawn")
-                .resizable()
-                .frame(width: cellWidth, height: cellWidth)
-                .position(pieces["whitePawn2"]!)
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            pieces["whitePawn2"]! = value.location
-                        }
-                        .onEnded {_ in
-                            pieces["whitePawn2"] = movePiece(pieceDestination: pieces["whitePawn2"]!)
-                        }
-                )
+                Image("whitePawn")
+                    .resizable()
+                    .frame(width: cellWidth, height: cellWidth)
+                    .position(pieces["whitePawn2"]!)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                pieces["whitePawn2"]! = value.location
+                            }
+                            .onEnded {_ in
+                                pieces["whitePawn2"] = movePiece(pieceDestination: pieces["whitePawn2"]!)
+                            }
+                    )
+            }
+            .frame(width: cellWidth*8, height: cellWidth*8)
+            
         }
         
-       
     }
-    
-    
 }
 
 struct SandBoxView_Previews: PreviewProvider {
