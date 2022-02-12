@@ -14,11 +14,13 @@ struct HomeView: View {
     @State private var suggestion: String = "Next Move"
     
     var line = InputLine()
-    
+
     var body: some View {
-        ZStack (){
+        
+
             VStack {
                 Spacer()
+                Text(inputMove)
                 Text(playedLineName)
                     .font(.system(size: 45))
                 Text(playedLine)
@@ -29,7 +31,6 @@ struct HomeView: View {
                 
                 Button(action: {
                     self.updateUI()
-                    self.inputMove = ""
                 }) {
                     Image(systemName: "play.circle")
                         .resizable()
@@ -41,7 +42,6 @@ struct HomeView: View {
                 HomeChessBoardView()
             }
         }
-    }
     
     func updateUI()
     {

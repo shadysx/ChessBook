@@ -25,6 +25,15 @@ Hello, this is app is going to be a tool that can visually save your chess openi
 
 	v0.3
 		-The UI is "full functionnal", the line recognition also. Next patch will probably make them work together
+	
+	v0.3.1
+		-Fixing the UI blank spaces bug
+		-The board is now fully interactive and we can move the pieces to enter the inputs to line struct
+
+	
+	Expected for v0.4:
+		-Implement a function that can recognize wich piece is moving, and wich piece is taked so the input can have the format ["e4, e5, kc3"] instead of [e4, e5, c3]
+		-Implement a function that can return the input in the kxc3 ()
 
 		
 	Expected for v0.5:
