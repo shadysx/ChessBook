@@ -14,6 +14,8 @@ struct HomeChessBoardView: View {
     @State var boardHeight: CGFloat = 0
     @State var chessBoardYStart: CGFloat = 0
     
+    
+    @State var piecesArray: [CGPoint] = []
     //White Pieces
     @State var whitePawnAPosition: CGPoint = CGPoint(x: 0, y:0)
     @State var whitePawnBPosition: CGPoint = CGPoint(x: 0, y:0)
@@ -52,6 +54,81 @@ struct HomeChessBoardView: View {
     @State var blackBishopFPosition: CGPoint = CGPoint(x: 0, y:0)
     @State var blackKnightGPosition: CGPoint = CGPoint(x: 0, y:0)
     @State var blackRookHPosition: CGPoint = CGPoint(x: 0, y:0)
+    
+    
+    
+    //Not using at the moment
+    func getChessBoardYStartPoint() -> CGFloat {
+        let f = UIScreen.main.bounds.height
+        let c = boardHeight
+        let x = (f - c) / 2
+        
+        return x
+    }
+    
+    func updatePieceArray() {
+        piecesArray = [
+            whitePawnAPosition, whitePawnBPosition, whitePawnCPosition, whitePawnDPosition, whitePawnEPosition, whitePawnFPosition, whitePawnGPosition, whitePawnHPosition,
+            whiteRookAPosition, whiteKnightBPosition, whiteBishopCPosition, whiteQueenPosition, whiteKingPosition, whiteBishopFPosition, whiteKnightGPosition, whiteRookHPosition,
+            blackPawnAPosition, blackPawnBPosition, blackPawnCPosition, blackPawnDPosition, blackPawnEPosition, blackPawnFPosition, blackPawnGPosition, blackPawnHPosition,
+            blackRookAPosition, blackKnightBPosition, blackBishopCPosition, blackQueenPosition, blackKingPosition, blackBishopFPosition, blackKnightGPosition, blackRookHPosition
+        ]
+    }
+    
+    
+    func movePiece(piecePosition: CGPoint) -> CGPoint {
+        let cellY = 8 - (Int(piecePosition.y / cellWidth))
+        let cellX = 1 + (Int(piecePosition.x / cellWidth))
+        
+        let cellWidthDouble: Double = Double(cellWidth)
+        
+        switch cellX {
+        case 1:
+            lastMove = "A\(cellY)"
+        case 2:
+            lastMove = "B\(cellY)"
+        case 3:
+            lastMove = "C\(cellY)"
+        case 4:
+            lastMove = "D\(cellY)"
+        case 5:
+            lastMove = "E\(cellY)"
+        case 6:
+            lastMove = "F\(cellY)"
+        case 7:
+            lastMove = "G\(cellY)"
+        case 8:
+            lastMove = "H\(cellY)"
+            default:
+                print("Not in the board")
+        }
+        
+        return CGPoint(x: Double(cellX) * cellWidthDouble - cellWidthDouble / 2, y: (8 - Double(cellY)) * cellWidthDouble + cellWidthDouble / 2) //This value is meant to replace the piece in the center of the cell
+        
+
+    }
+    
+    
+    func piecesTakes(movingPiece: CGPoint) -> Void {
+        
+        for (i,piece) in piecesArray.enumerated() {
+            print(i)
+            if movingPiece == piece {
+                print("This piece is taked \(i)")
+                print(piecesArray[i])
+//                piecesArray[i] = CGPoint(x: 667, y: 667)
+                print(piecesArray[i])
+                lastMove = ("\(piece)")
+
+//                print("After \(piecesArray[i])")
+            }
+ 
+        }
+        
+        print("Updating pieceArray")
+
+        
+    }
     
     
     
@@ -112,7 +189,16 @@ struct HomeChessBoardView: View {
                             blackKnightGPosition = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
                             blackRookHPosition = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
                             
+                            piecesArray = [
+                                whitePawnAPosition, whitePawnBPosition, whitePawnCPosition, whitePawnDPosition, whitePawnEPosition, whitePawnFPosition, whitePawnGPosition, whitePawnHPosition,
+                                whiteRookAPosition, whiteKnightBPosition, whiteBishopCPosition, whiteQueenPosition, whiteKingPosition, whiteBishopFPosition, whiteKnightGPosition, whiteRookHPosition,
+                                blackPawnAPosition, blackPawnBPosition, blackPawnCPosition, blackPawnDPosition, blackPawnEPosition, blackPawnFPosition, blackPawnGPosition, blackPawnHPosition,
+                                blackRookAPosition, blackKnightBPosition, blackBishopCPosition, blackQueenPosition, blackKingPosition, blackBishopFPosition, blackKnightGPosition, blackRookHPosition
+                            ]
+                        
+                            
                             boardHeight = geometry.size.width
+                            
                             
                             
                         }
@@ -120,15 +206,11 @@ struct HomeChessBoardView: View {
                 }
 
                 .border(.blue)
-           
-                        
-
                     
                 VStack {
                     Text("cellWidth: \(cellWidth)")
                     Text("boardHeight: \(boardHeight)")
                     Text("Last move: \(lastMove)")
-                    Text("x: \(whiteQueenPosition.x) y: \(whiteQueenPosition.y)")
 
                 }
             
@@ -144,7 +226,10 @@ struct HomeChessBoardView: View {
                                     whitePawnAPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnAPosition = identifyCell(piecePosition: whitePawnAPosition)
+                                    whitePawnAPosition =  movePiece(piecePosition: whitePawnAPosition)
+                                    piecesTakes(movingPiece: whitePawnAPosition)
+                                    updatePieceArray()
+                                    
                                 }
                         )
                     
@@ -158,7 +243,8 @@ struct HomeChessBoardView: View {
                                     whitePawnBPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnBPosition = identifyCell(piecePosition: whitePawnBPosition)
+                                    whitePawnBPosition = movePiece(piecePosition: whitePawnBPosition)
+                                    updatePieceArray()
                                 }
                         )
                     
@@ -172,7 +258,7 @@ struct HomeChessBoardView: View {
                                     whitePawnCPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnCPosition = identifyCell(piecePosition: whitePawnCPosition)
+                                    whitePawnCPosition = movePiece(piecePosition: whitePawnCPosition)
                                 }
                         )
                     
@@ -186,7 +272,7 @@ struct HomeChessBoardView: View {
                                     whitePawnDPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnDPosition = identifyCell(piecePosition: whitePawnDPosition)
+                                    whitePawnDPosition = movePiece(piecePosition: whitePawnDPosition)
                                 }
                         )
                     
@@ -200,7 +286,7 @@ struct HomeChessBoardView: View {
                                     whitePawnEPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnEPosition = identifyCell(piecePosition: whitePawnEPosition)
+                                    whitePawnEPosition = movePiece(piecePosition: whitePawnEPosition)
                                 }
                         )
                     
@@ -214,7 +300,7 @@ struct HomeChessBoardView: View {
                                     whitePawnFPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnFPosition = identifyCell(piecePosition: whitePawnFPosition)
+                                    whitePawnFPosition = movePiece(piecePosition: whitePawnFPosition)
                                 }
                         )
                     
@@ -228,7 +314,7 @@ struct HomeChessBoardView: View {
                                     whitePawnGPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnGPosition = identifyCell(piecePosition: whitePawnGPosition)
+                                    whitePawnGPosition = movePiece(piecePosition: whitePawnGPosition)
                                 }
                         )
                     
@@ -242,7 +328,7 @@ struct HomeChessBoardView: View {
                                     whitePawnHPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whitePawnHPosition = identifyCell(piecePosition: whitePawnHPosition)
+                                    whitePawnHPosition = movePiece(piecePosition: whitePawnHPosition)
                                 }
                         )
                 }
@@ -259,7 +345,7 @@ struct HomeChessBoardView: View {
                                     whiteRookAPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteRookAPosition = identifyCell(piecePosition: whiteRookAPosition)
+                                    whiteRookAPosition = movePiece(piecePosition: whiteRookAPosition)
                                 }
                         )
 
@@ -274,7 +360,7 @@ struct HomeChessBoardView: View {
                                     whiteKnightGPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteKnightGPosition = identifyCell(piecePosition: whiteKnightGPosition)
+                                    whiteKnightGPosition = movePiece(piecePosition: whiteKnightGPosition)
                                 }
                         )
                     
@@ -288,7 +374,7 @@ struct HomeChessBoardView: View {
                                     whiteBishopCPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteBishopCPosition = identifyCell(piecePosition: whiteBishopCPosition)
+                                    whiteBishopCPosition = movePiece(piecePosition: whiteBishopCPosition)
                                 }
                         )
 
@@ -303,7 +389,7 @@ struct HomeChessBoardView: View {
                                     whiteQueenPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteQueenPosition = identifyCell(piecePosition: whiteQueenPosition)
+                                    whiteQueenPosition = movePiece(piecePosition: whiteQueenPosition)
                                 }
                         )
                     
@@ -317,7 +403,7 @@ struct HomeChessBoardView: View {
                                     whiteKingPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteKingPosition = identifyCell(piecePosition: whiteKingPosition)
+                                    whiteKingPosition = movePiece(piecePosition: whiteKingPosition)
                                 }
                         )
                     
@@ -331,7 +417,7 @@ struct HomeChessBoardView: View {
                                     whiteBishopFPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteBishopFPosition = identifyCell(piecePosition: whiteBishopFPosition)
+                                    whiteBishopFPosition = movePiece(piecePosition: whiteBishopFPosition)
                                 }
                         )
                     
@@ -345,7 +431,7 @@ struct HomeChessBoardView: View {
                                     whiteKnightBPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteKnightBPosition = identifyCell(piecePosition: whiteKnightBPosition)
+                                    whiteKnightBPosition = movePiece(piecePosition: whiteKnightBPosition)
                                 }
                         )
                     
@@ -359,7 +445,7 @@ struct HomeChessBoardView: View {
                                     whiteRookHPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    whiteRookHPosition = identifyCell(piecePosition: whiteRookHPosition)
+                                    whiteRookHPosition = movePiece(piecePosition: whiteRookHPosition)
                                 }
                         )
 
@@ -377,7 +463,7 @@ struct HomeChessBoardView: View {
                                     blackPawnAPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnAPosition = identifyCell(piecePosition: blackPawnAPosition)
+                                    blackPawnAPosition = movePiece(piecePosition: blackPawnAPosition)
                                 }
                         )
                     
@@ -391,7 +477,7 @@ struct HomeChessBoardView: View {
                                     blackPawnBPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnBPosition = identifyCell(piecePosition: blackPawnBPosition)
+                                    blackPawnBPosition = movePiece(piecePosition: blackPawnBPosition)
                                 }
                         )
                     
@@ -405,7 +491,7 @@ struct HomeChessBoardView: View {
                                     blackPawnCPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnCPosition = identifyCell(piecePosition: blackPawnCPosition)
+                                    blackPawnCPosition = movePiece(piecePosition: blackPawnCPosition)
                                 }
                         )
                     
@@ -419,7 +505,7 @@ struct HomeChessBoardView: View {
                                     blackPawnDPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnDPosition = identifyCell(piecePosition: blackPawnDPosition)
+                                    blackPawnDPosition = movePiece(piecePosition: blackPawnDPosition)
                                 }
                         )
                     
@@ -433,7 +519,7 @@ struct HomeChessBoardView: View {
                                     blackPawnEPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnEPosition = identifyCell(piecePosition: blackPawnEPosition)
+                                    blackPawnEPosition = movePiece(piecePosition: blackPawnEPosition)
                                 }
                         )
                     
@@ -447,7 +533,7 @@ struct HomeChessBoardView: View {
                                     blackPawnFPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnFPosition = identifyCell(piecePosition: blackPawnFPosition)
+                                    blackPawnFPosition = movePiece(piecePosition: blackPawnFPosition)
                                 }
                         )
                     
@@ -461,7 +547,7 @@ struct HomeChessBoardView: View {
                                     blackPawnGPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnGPosition = identifyCell(piecePosition: blackPawnGPosition)
+                                    blackPawnGPosition = movePiece(piecePosition: blackPawnGPosition)
                                 }
                         )
                     
@@ -475,7 +561,7 @@ struct HomeChessBoardView: View {
                                     blackPawnHPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackPawnHPosition = identifyCell(piecePosition: blackPawnHPosition)
+                                    blackPawnHPosition = movePiece(piecePosition: blackPawnHPosition)
                                 }
                         )
                 }
@@ -492,7 +578,7 @@ struct HomeChessBoardView: View {
                                     blackRookAPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackRookAPosition = identifyCell(piecePosition: blackRookAPosition)
+                                    blackRookAPosition = movePiece(piecePosition: blackRookAPosition)
                                 }
                         )
 
@@ -507,7 +593,7 @@ struct HomeChessBoardView: View {
                                     blackKnightGPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackKnightGPosition = identifyCell(piecePosition: blackKnightGPosition)
+                                    blackKnightGPosition = movePiece(piecePosition: blackKnightGPosition)
                                 }
                         )
                     
@@ -521,7 +607,7 @@ struct HomeChessBoardView: View {
                                     blackBishopCPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackBishopCPosition = identifyCell(piecePosition: blackBishopCPosition)
+                                    blackBishopCPosition = movePiece(piecePosition: blackBishopCPosition)
                                 }
                         )
 
@@ -536,7 +622,7 @@ struct HomeChessBoardView: View {
                                     blackQueenPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackQueenPosition = identifyCell(piecePosition: blackQueenPosition)
+                                    blackQueenPosition = movePiece(piecePosition: blackQueenPosition)
                                 }
                         )
                     
@@ -550,7 +636,7 @@ struct HomeChessBoardView: View {
                                     blackKingPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackKingPosition = identifyCell(piecePosition: blackKingPosition)
+                                    blackKingPosition = movePiece(piecePosition: blackKingPosition)
                                 }
                         )
                     
@@ -564,7 +650,7 @@ struct HomeChessBoardView: View {
                                     blackBishopFPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackBishopFPosition = identifyCell(piecePosition: blackBishopFPosition)
+                                    blackBishopFPosition = movePiece(piecePosition: blackBishopFPosition)
                                 }
                         )
                     
@@ -578,7 +664,7 @@ struct HomeChessBoardView: View {
                                     blackKnightBPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackKnightBPosition = identifyCell(piecePosition: blackKnightBPosition)
+                                    blackKnightBPosition = movePiece(piecePosition: blackKnightBPosition)
                                 }
                         )
                     
@@ -592,52 +678,14 @@ struct HomeChessBoardView: View {
                                     blackRookHPosition = value.location
                                 }
                                 .onEnded {_ in
-                                    blackRookHPosition = identifyCell(piecePosition: blackRookHPosition)
+                                    blackRookHPosition = movePiece(piecePosition: blackRookHPosition)
                                 }
                         )
                 }
             }
     }
     
-    //Not using at the moment
-    func getChessBoardYStartPoint() -> CGFloat {
-        let f = UIScreen.main.bounds.height
-        let c = boardHeight
-        let x = (f - c) / 2
-        print(x)
-        return x
-    }
-    
-    
-    func identifyCell(piecePosition: CGPoint) -> CGPoint {
-        let cellY = 8 - (Int(piecePosition.y / cellWidth))
-        let cellX = 1 + (Int(piecePosition.x / cellWidth))
-        
-        let cellWidthDouble: Double = Double(cellWidth)
-        
-        switch cellX {
-        case 1:
-            lastMove = "A\(cellY)"
-        case 2:
-            lastMove = "B\(cellY)"
-        case 3:
-            lastMove = "C\(cellY)"
-        case 4:
-            lastMove = "D\(cellY)"
-        case 5:
-            lastMove = "E\(cellY)"
-        case 6:
-            lastMove = "F\(cellY)"
-        case 7:
-            lastMove = "G\(cellY)"
-        case 8:
-            lastMove = "H\(cellY)"
-            default:
-                print("Not in the board")
-        }
-        
-        return CGPoint(x: Double(cellX) * cellWidthDouble - cellWidthDouble / 2, y: (8 - Double(cellY)) * cellWidthDouble + cellWidthDouble / 2) //This value is meant to replace the piece in the center of the cell
-    }
+
     
 }
 

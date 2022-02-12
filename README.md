@@ -20,6 +20,9 @@ Hello, this is app is going to be a tool that can visually save your chess openi
 	v0.2.2
 		-Added the function that can recognize wich cell the piece is draged on. 
 
+	v0.2.3
+		-Added pieces takes function
+
 	Expected for 0.3:
 		-Adding all the pieces
 		-Refactoring the chessboardLogic code 
