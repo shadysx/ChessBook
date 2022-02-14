@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F238236F27B9ED53001D3C46 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F238236E27B9ED53001D3C46 /* StringExtension.swift */; };
 		F256AB0C27B0B59200A1058E /* dataset_lite.txt in Resources */ = {isa = PBXBuildFile; fileRef = F256AB0B27B0B59200A1058E /* dataset_lite.txt */; };
 		F276372F27B33700004FF2FA /* HomeChessBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276372E27B33700004FF2FA /* HomeChessBoardView.swift */; };
 		F276373127B37555004FF2FA /* ChessBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276373027B37554004FF2FA /* ChessBoardModel.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F238236E27B9ED53001D3C46 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		F256AB0B27B0B59200A1058E /* dataset_lite.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = dataset_lite.txt; sourceTree = "<group>"; };
 		F276372E27B33700004FF2FA /* HomeChessBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeChessBoardView.swift; sourceTree = "<group>"; };
 		F276373027B37554004FF2FA /* ChessBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoardModel.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				F2F563A127A76C6D007D8511 /* ColorExtension.swift */,
 				F2F563A827A8B3AE007D8511 /* Line.swift */,
 				F2F563AA27A9F15F007D8511 /* DataModel.swift */,
+				F238236E27B9ED53001D3C46 /* StringExtension.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				F2F563AB27A9F15F007D8511 /* DataModel.swift in Sources */,
 				F2F563A227A76C6D007D8511 /* ColorExtension.swift in Sources */,
 				F2F0379F27B780D10061CEAA /* SandBoxView.swift in Sources */,
+				F238236F27B9ED53001D3C46 /* StringExtension.swift in Sources */,
 				F276373127B37555004FF2FA /* ChessBoardModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

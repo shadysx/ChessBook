@@ -30,21 +30,26 @@ Hello, this is app is going to be a tool that can visually save your chess openi
 		-Fixing the UI blank spaces bug
 		-The board is now fully interactive and we can move the pieces to enter the inputs to line struct
 
+	v0.3.2 
+		-Added the official moves notations: only need to fix the ambiguity when 2 pieces can move at the same cell, the castle notation and the check/mate notation (if legal moves are implemented)
+
+
 	
-	Expected for v0.4:
-		-Implement a function that can recognize wich piece is moving, and wich piece is taked so the input can have the format ["e4, e5, kc3"] instead of [e4, e5, c3]
-		-Implement a function that can return the input in the kxc3 ()
 
 		
 	Expected for v0.5:
+		-Book tab MVP
+		-Castle move and official notation
+		-Fix ambiguity when 2 identical pieces can move at the same location
 		-Multiple suggestions returned to the view, with percentage from a dataset (ChessDB)
 		-Playing black or white 
 		-Castle Function
 
 	Expected for 1.0:
+		-Flip chessboard
 		-Clean UI
 		-Interactive chessboard interface with drag an drop.
-		-Save personal lines (Local and/or Database)
+		-Save personal lines (Local and/or Database) 
 		-Huge datasets with a lot of existing openings
 		-Multiple suggestions
 		-Legal moves(not sure if it's worth the time :D)

@@ -29,7 +29,7 @@ class InputLine {
     
     //This is the unique function that get data from the view
     func addMove(inputMove: String) -> Void {
-        self.openingFeed.append(inputMove.lowercased())
+        self.openingFeed.append(inputMove)
         self.inputCount += 1
     }
     

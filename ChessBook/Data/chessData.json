@@ -1,7 +1,7 @@
 [
     {
         "name" : "Casual Opening",
-        "movesArray" : ["e4", "e5", "kc3", "kc6"]
+        "movesArray" : ["e2e4", "e7e5", "kc3", "kc6"]
     },
     {
         "name" : "Grob Opening",
