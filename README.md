@@ -32,9 +32,12 @@ Hello, this is app is going to be a tool that can visually save your chess openi
 
 	v0.3.2 
 		-Added the official moves notations: only need to fix the ambiguity when 2 pieces can move at the same cell, the castle notation and the check/mate notation (if legal moves are implemented)
-
-
 	
+	v0.3.3
+		-Added castle move and notation, castle need to be improved with the correct move logic (very easy dont worry to come back on this code)
+		-Added forbiden move: friendly fire
+		-Added board flip (need to implement a button to trigger it)
+
 
 		
 	Expected for v0.5:
