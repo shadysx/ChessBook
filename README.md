@@ -37,15 +37,21 @@ Hello, this is app is going to be a tool that can visually save your chess openi
 		-Added castle move and notation, castle need to be improved with the correct move logic (very easy dont worry to come back on this code)
 		-Added forbiden move: friendly fire
 		-Added board flip (need to implement a button to trigger it)
+	
+	v0.4
+		-The playview is done! (almost) little things are messing up but still playable
+		-Added flip button trigger
+		-Added restart game button
 
-
-		
 	Expected for v0.5:
+		-Chessboard view need a huge code refactor for reusability (for the recordChessView)
+		
+	Expected for v0.6:
 		-Book tab MVP
-		-Castle move and official notation
 		-Fix ambiguity when 2 identical pieces can move at the same location
 		-Multiple suggestions returned to the view, with percentage from a dataset (ChessDB)
-		-Playing black or white 
+		-ScrollView for line suggestions
+		-Playing white then black 
 		-Castle Function
 
 	Expected for 1.0:

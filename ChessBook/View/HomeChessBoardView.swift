@@ -216,10 +216,6 @@ struct HomeChessBoardView: View {
             else if !isPieceMoving {
                 pieceDestinationCentered = resetPosition
             }
-            
-
-
-            
         }
         
         
@@ -361,6 +357,52 @@ struct HomeChessBoardView: View {
         //Updating the piecesCopy
         piecesCopy = pieces
     }
+    
+    func restartGame() {
+        line.restart()
+        
+        pieces["whitePawn1"] = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+        pieces["whitePawn2"] = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+        pieces["whitePawn3"] = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+        pieces["whitePawn4"] = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+        pieces["whitePawn5"] = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+        pieces["whitePawn6"] = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+        pieces["whitePawn7"] = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+        pieces["whitePawn8"] = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 7 - cellWidth / 2)
+        
+        pieces["whiteRook1"] = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+        pieces["whiteNight1"] = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+        pieces["whiteBishop1"] = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+        pieces["whiteQueen"] = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+        pieces["whiteKing"] = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+        pieces["whiteBishop2"] = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+        pieces["whiteNight2"] = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+        pieces["whiteRook2"] = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 8 - cellWidth / 2)
+
+        pieces["blackPawn1"] = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+        pieces["blackPawn2"] = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+        pieces["blackPawn3"] = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+        pieces["blackPawn4"] = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+        pieces["blackPawn5"] = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+        pieces["blackPawn6"] = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+        pieces["blackPawn7"] = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+        pieces["blackPawn8"] = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 2 - cellWidth / 2)
+        
+        pieces["blackRook1"] = CGPoint(x: cellWidth * 8 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+        pieces["blackNight1"] = CGPoint(x: cellWidth * 7 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+        pieces["blackBishop1"] = CGPoint(x: cellWidth * 6 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+        pieces["blackKing"] = CGPoint(x: cellWidth * 5 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+        pieces["blackQueen"] = CGPoint(x: cellWidth * 4 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+        pieces["blackBishop2"] = CGPoint(x: cellWidth * 3 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+        pieces["blackNight2"] = CGPoint(x: cellWidth * 2 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+        pieces["blackRook2"] = CGPoint(x: cellWidth * 1 - cellWidth / 2 , y: cellWidth * 1 - cellWidth / 2)
+        
+        piecesCopy = pieces
+        
+        inputMove = ""
+        
+        updateUI() //
+    }
 
     
     var body: some View {
@@ -368,15 +410,20 @@ struct HomeChessBoardView: View {
         VStack {
             Spacer()
             Text(playedLineName)
-                .font(.system(size: 45))
-            Text("Current Line: [\(playedLine)]")
+                .font(.system(size: 30))
+                .minimumScaleFactor(0.01)
+                .lineLimit(1)
+            Text("[\(playedLine) ]")
+                .font(.system(size: 20))
             
             Text("Next Opening Move: \(suggestion)")
-                .font(.system(size: 20))
+                .font(.system(size: 30))
+                .minimumScaleFactor(0.01)
+                .lineLimit(1)
                 .foregroundColor(.blue)
             Spacer()
         
-            ZStack(){
+            ZStack(alignment: .bottom){
                 ChessBoard(rows: 8, columns: 8)
                     .fill(Color.white)
                     .frame(
@@ -429,13 +476,14 @@ struct HomeChessBoardView: View {
                         
                         piecesCopy = pieces
                         
+                        updateUI()
+                        
                     }
 
                 Group {
                     Group {
                         Image("whitePawn")
                             .resizable()
-                            .rotationEffect(.degrees(whitePlayer ? 0 : 180))
                             .rotationEffect(.degrees(whitePlayer ? 0 : 180))
                             .frame(width: cellWidth, height: cellWidth)
                             .position(pieces["whitePawn1"]!)
@@ -996,9 +1044,17 @@ struct HomeChessBoardView: View {
             }//.border(.red) //ZSTACK CLOSING HERE
             .rotationEffect(.degrees(whitePlayer ? 0 : 180))
             Spacer()
-        
+            HStack {
+                Button(action: {whitePlayer.toggle()}) {
+                    Label("Flip Board", systemImage: "arrow.clockwise")
+                }
+                Spacer()
+                Button(action: {restartGame()}) {
+                    Label("Restart Game", systemImage: "restart")
+                }
+            }
+            Spacer()
+
         }
     }
-    
-    
 }

@@ -29,8 +29,10 @@ class InputLine {
     
     //This is the unique function that get data from the view
     func addMove(inputMove: String) -> Void {
-        self.openingFeed.append(inputMove)
-        self.inputCount += 1
+        if inputMove != "" {
+            self.openingFeed.append(inputMove)
+            self.inputCount += 1
+        }
     }
     
     /*
@@ -60,7 +62,7 @@ class InputLine {
     }
     
     func getOpeningName() -> String {
-        var retVal: String = "Not Found"
+        var retVal: String = "Add this opening to play it!"
         
         for i in 0 ..< book.count {
             if self.openingFeed.prefix(inputCount) == book[i].movesArray.prefix(inputCount) {
@@ -73,7 +75,7 @@ class InputLine {
     }
     
     func getSuggestion() -> String {
-        var retVal: String = ""
+        var retVal: String = "Not Found"
         if openingName != "Not Found" && openingName != "" {
             for line in book {
                 if line.name == openingName && line.movesArray.count > inputCount {
@@ -83,6 +85,12 @@ class InputLine {
         }
 
         return retVal
+    }
+    
+    func restart() {
+        openingFeed = []
+        openingName = "Line Name"
+        inputCount = 0
     }
     
 }
